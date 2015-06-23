@@ -175,6 +175,12 @@ TSS_RESULT RPC_Quote_TP(struct host_table_entry *,TCS_KEY_HANDLE,TCPA_NONCE *,UI
 #define RPC_Quote_TP(...)	TSPERR(TSS_E_INTERNAL_ERROR)
 #endif
 
+#ifdef TSS_BUILD_DEEPQUOTE
+TSS_RESULT RPC_DeepQuote_TP(struct host_table_entry *,TCS_KEY_HANDLE,TCPA_NONCE *,UINT32,BYTE *,UINT32,BYTE *,UINT32,TPM_AUTH *,UINT32 *,BYTE ** );
+#else
+#define RPC_DeepQuote_TP(...)	TSPERR(TSS_E_INTERNAL_ERROR)
+#endif
+
 #ifdef TSS_BUILD_QUOTE2
 TSS_RESULT RPC_Quote2_TP(struct host_table_entry *,TCS_KEY_HANDLE,TCPA_NONCE *,UINT32,BYTE *,TSS_BOOL,TPM_AUTH *,UINT32 *,BYTE **,UINT32 *,BYTE **,UINT32 *,BYTE **);
 #else

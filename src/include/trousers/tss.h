@@ -23,6 +23,7 @@
 #include <tss/tcs_error.h>
 #include <tss/tcs.h>
 #include <tss/tss_error.h>
+#include <tss/tss_vendor_error.h>
 
 #include <tss/tddlapi_error.h>
 #include <tss/tcs_defines.h>

@@ -493,6 +493,17 @@ TSPICALL Tspi_TPM_Quote
     TSS_VALIDATION*     pValidationData                // in, out
 );
 
+TSPICALL Tspi_TPM_DeepQuote
+(
+    TSS_HTPM            hTPM,                          // in
+    TSS_HKEY            hIdentKey,                     // in
+    UINT32              flags,                         // in
+    TSS_HPCRS           hPcrComposite,                 // in
+    TSS_HPCRS           phPcrComposite,                // in
+    TPM_STORE_PUBKEY*   vtpm_group_pubkey,             // in
+    TSS_VALIDATION*     pValidationData                // in, out
+);
+
 TSPICALL Tspi_TPM_Quote2
 (
     TSS_HTPM            hTPM,                          // in

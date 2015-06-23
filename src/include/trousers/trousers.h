@@ -91,6 +91,8 @@ void Trspi_LoadBlob_PCR_INFO(UINT64 *offset, BYTE *blob, TCPA_PCR_INFO *pcr);
 void Trspi_LoadBlob_PCR_INFO_LONG(UINT64 *offset, BYTE *blob, TPM_PCR_INFO_LONG *pcr);
 void Trspi_LoadBlob_PCR_INFO_SHORT(UINT64 *offset, BYTE *blob, TPM_PCR_INFO_SHORT *pcr);
 void Trspi_LoadBlob_PCR_SELECTION(UINT64 *offset, BYTE *blob, TCPA_PCR_SELECTION *pcr);
+void Trspi_LoadBlob_PCRVALUE_ARRAY(UINT64 *offset, BYTE *blob, TPM_PCRVALUE *v,UINT32 n);
+void Trspi_LoadBlob_PCR_COMPOSITE(UINT64 *offset, BYTE *blob, TPM_PCR_COMPOSITE *v);
 void Trspi_LoadBlob_STORED_DATA(UINT64 *offset, BYTE *blob, TCPA_STORED_DATA *data);
 void Trspi_LoadBlob_PUBKEY(UINT64 *offset, BYTE *blob, TCPA_PUBKEY *pubKey);
 void Trspi_LoadBlob_KEY(UINT64 *offset, BYTE *blob, TCPA_KEY *key);

@@ -984,6 +984,40 @@ TSS_RESULT RPC_Quote(TSS_HCONTEXT tspContext,	/* in */
 	return result;
 }
 
+#ifdef TSS_BUILD_DEEPQUOTE
+TSS_RESULT RPC_DeepQuote(TSS_HCONTEXT tspContext, /* in */
+		      TCS_KEY_HANDLE keyHandle, /* in */
+		      TCPA_NONCE *antiReplay, /* in */
+		      UINT32 pcrDataSizeIn, /* in */
+		      BYTE * pcrDataIn, /* in */
+			  UINT32 phPcrDataSizeIn, /* in */
+		      BYTE * phPcrDataIn, /* in */
+			  UINT32 flags, /* in */
+		      TPM_AUTH * privAuth, /* in,out */
+		      UINT32 * sigSize, /* out */
+		      BYTE ** sig) /* out */
+{
+	TSS_RESULT result = (TSS_E_INTERNAL_ERROR | TSS_LAYER_TSP);
+	struct host_table_entry *entry = get_table_entry(tspContext);
+
+	if (entry == NULL)
+		return TSPERR(TSS_E_NO_CONNECTION);
+
+	switch (entry->type) {
+	case CONNECTION_TYPE_TCP_PERSISTANT:
+		result = RPC_DeepQuote_TP(entry, keyHandle, antiReplay, pcrDataSizeIn, pcrDataIn,
+				       phPcrDataSizeIn,phPcrDataIn, flags, privAuth, sigSize, sig);
+		break;
+	default:
+		break;
+	}
+
+	put_table_entry(entry);
+
+	return result;
+}
+#endif
+
 #ifdef TSS_BUILD_TSS12
 TSS_RESULT RPC_Quote2(TSS_HCONTEXT tspContext, /* in */
 		      TCS_KEY_HANDLE keyHandle, /* in */

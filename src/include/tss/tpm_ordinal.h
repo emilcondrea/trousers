@@ -148,4 +148,6 @@
 #define TSC_ORD_PhysicalPresence                  ((UINT32)0x4000000A)
 #define TSC_ORD_ResetEstablishmentBit             ((UINT32)0x4000000B)
 
+#define TPM_ORD_DeepQuote                         (TPM_ORD_Quote|TPM_VENDOR_COMMAND)
+
 #endif // __TPM_ORDINAL_H__

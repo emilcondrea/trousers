@@ -104,6 +104,10 @@ if TSS_BUILD_QUOTE
 libtspi_la_SOURCES+=tspi_quote.c tsp_quote.c rpc/@RPC@/rpc_quote.c
 libtspi_la_CFLAGS+=-DTSS_BUILD_QUOTE
 endif
+if TSS_BUILD_DEEPQUOTE
+libtspi_la_SOURCES+=tspi_deepquote.c rpc/@RPC@/rpc_deepquote.c
+libtspi_la_CFLAGS+=-DTSS_BUILD_DEEPQUOTE
+endif
 if TSS_BUILD_PCR_COMP
 libtspi_la_SOURCES+=tspi_pcr_comp.c
 libtspi_la_CFLAGS+=-DTSS_BUILD_PCR_COMP

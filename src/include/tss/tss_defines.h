@@ -1284,5 +1284,9 @@ Global defines for TSS.
 #define TSS_DAA_LENGTH_MFG1_GAMMA       214             // Length of the output of MGF1 in conjunction with the modulus Gamma (1712 bits)
 #define TSS_DAA_LENGTH_MGF1_AR          25              // Length of the output of MGF1 used for anonymity revocation (200 bits)
 
+#define VTPM_QUOTE_FLAGS_HASH_UUID                  0x00000001
+#define VTPM_QUOTE_FLAGS_VTPM_MEASUREMENTS          0x00000002
+#define VTPM_QUOTE_FLAGS_GROUP_INFO                 0x00000004
+#define VTPM_QUOTE_FLAGS_GROUP_PUBKEY               0x00000008
 
 #endif // __TSS_DEFINES_H__

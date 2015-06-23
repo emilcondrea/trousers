@@ -178,6 +178,14 @@ AC_ARG_WITH(api,
 	    [API=$withval],
 	    [])
 
+XEN_EXT=1
+if test "$XEN_EXT" = "1"
+then
+	AM_CONDITIONAL(TSS_BUILD_DEEPQUOTE, true)
+else
+	AM_CONDITIONAL(TSS_BUILD_DEEPQUOTE, false)
+fi
+
 if test "x$API" != "x1.1" && test "x$API" != "x1.2"; then
 	AC_MSG_ERROR(["1.1" and "1.2" are the only supported API versions for trousers.
 		      Custom API build options are available by editing 'configure.in'.])

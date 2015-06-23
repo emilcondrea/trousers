@@ -2608,6 +2608,24 @@ Trspi_UnloadBlob_PCR_COMPOSITE(UINT64 *offset, BYTE *blob, TCPA_PCR_COMPOSITE *o
 	return TSS_SUCCESS;
 }
 
+void
+Trspi_LoadBlob_PCRVALUE_ARRAY(UINT64 *offset, BYTE *blob, TPM_PCRVALUE *v,UINT32 n)
+{
+  UINT32 i;
+  for (i = 0; i < n; i++)
+  {
+    Trspi_LoadBlob(offset,sizeof(v[i].digest),blob,v[i].digest);
+  }
+}
+
+void
+Trspi_LoadBlob_PCR_COMPOSITE(UINT64 *offset, BYTE *blob, TPM_PCR_COMPOSITE *v)
+{
+  Trspi_LoadBlob_PCR_SELECTION(offset, blob, &v->select);
+  Trspi_LoadBlob_UINT32(offset,v->valueSize,blob);
+  Trspi_LoadBlob_PCRVALUE_ARRAY(offset,blob,v->pcrValue,v->valueSize / sizeof(TPM_PCRVALUE));
+}
+
 TSS_RESULT
 Trspi_UnloadBlob_MIGRATIONKEYAUTH(UINT64 *offset, BYTE *blob, TPM_MIGRATIONKEYAUTH *migAuth)
 {

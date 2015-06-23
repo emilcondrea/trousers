@@ -8,6 +8,7 @@ tssinclude_HEADERS = tss/tcpa_error.h \
 		     tss/tddlapi_error.h \
 		     tss/tspi.h \
 		     tss/tss_error.h \
+		     tss/tss_vendor_error.h \
 		     tss/platform.h \
 		     tss/tcpa_struct.h \
 		     tss/tcs_structs.h \

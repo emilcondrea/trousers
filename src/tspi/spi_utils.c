@@ -70,6 +70,9 @@ struct tcs_api_table tcs_normal_api = {
 #ifdef TSS_BUILD_QUOTE
 	.Quote = RPC_Quote,
 #endif
+#ifdef TSS_BUILD_DEEPQUOTE
+	.DeepQuote = RPC_DeepQuote,
+#endif
 #ifdef TSS_BUILD_QUOTE2
 	.Quote2 = RPC_Quote2,
 #endif
