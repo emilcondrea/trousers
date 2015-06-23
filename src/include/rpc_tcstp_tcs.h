@@ -167,6 +167,12 @@ DECLARE_TCSTP_FUNC(Quote);
 #define tcs_wrap_Quote	tcs_wrap_Error
 #endif
 
+#ifdef TSS_BUILD_DEEPQUOTE
+DECLARE_TCSTP_FUNC(DeepQuote);
+#else
+#define tcs_wrap_DeepQuote tcs_wrap_Error
+#endif
+
 #ifdef TSS_BUILD_QUOTE2
 DECLARE_TCSTP_FUNC(Quote2);
 #else

@@ -178,6 +178,37 @@ tpm_rsp_parse(TPM_COMMAND_CODE ordinal, BYTE *b, UINT32 len, ...)
 		break;
 	}
 #endif
+#ifdef TSS_BUILD_DEEPQUOTE
+	case TPM_ORD_DeepQuote:
+	{
+		UINT32 *len1 = va_arg(ap, UINT32 *); /* sigSize */
+		BYTE **blob1 = va_arg(ap, BYTE **);  /* sig */
+		TPM_AUTH *auth1 = va_arg(ap, TPM_AUTH *); /* privAuth */
+		int paramSize = len;
+		va_end(ap);
+
+		if (!len1 || !blob1 ) {
+			LogError("Internal error for ordinal 0x%x", ordinal);
+			return TCSERR(TSS_E_INTERNAL_ERROR);
+		}
+
+		offset1 = len - TSS_TPM_RSP_BLOB_AUTH_LEN;
+		paramSize -= TSS_TPM_RSP_BLOB_AUTH_LEN;
+		UnloadBlob_Auth(&offset1, b, auth1);
+
+		offset1 = offset2 = TSS_TPM_TXBLOB_HDR_LEN;
+		paramSize -= TSS_TPM_TXBLOB_HDR_LEN;
+		*len1 = paramSize;
+		/* sig */
+		if ((*blob1 = malloc(*len1)) == NULL) {
+			LogError("malloc of %u bytes failed", *len1);
+			*len1 = 0;
+			return TCSERR(TSS_E_OUTOFMEMORY);
+		}
+		UnloadBlob(&offset1, *len1, b, *blob1);
+		break;
+	}
+#endif
 #ifdef TSS_BUILD_TSS12
 	/* TPM BLOB: TPM_PCR_INFO_SHORT, (UINT32, BLOB,) UINT32, BLOB, 1 optional AUTH */
 	case TPM_ORD_Quote2:
@@ -1547,6 +1578,41 @@ tpm_rqu_build(TPM_COMMAND_CODE ordinal, UINT64 *outOffset, BYTE *out_blob, ...)
 
 		break;
 	}
+#ifdef TSS_BUILD_DEEPQUOTE
+	case TPM_ORD_DeepQuote:
+	{
+		/* Input vars */
+		UINT32 keySlot1 = va_arg(ap, UINT32);
+		BYTE *digest1 = va_arg(ap, BYTE *);
+		UINT32 in_len1 = va_arg(ap, UINT32);
+		BYTE *in_blob1 = va_arg(ap, BYTE *);
+		UINT32 in_len2 = va_arg(ap, UINT32);
+		BYTE *in_blob2 = va_arg(ap, BYTE *);
+		UINT32* flags = va_arg(ap,UINT32 *);
+		TPM_AUTH *auth1 = va_arg(ap, TPM_AUTH *);
+		va_end(ap);
+
+		if (!keySlot1 || !digest1 || !in_blob1 || !in_blob2  || !flags) {
+			result = TCSERR(TSS_E_INTERNAL_ERROR);
+			LogError("Internal error for ordinal 0x%x", ordinal);
+			break;
+		}
+
+		*outOffset += TSS_TPM_TXBLOB_HDR_LEN;
+		//nonce
+		LoadBlob(outOffset, TPM_SHA1_160_HASH_LEN, out_blob, digest1);
+		//pcr selection v
+		LoadBlob(outOffset, in_len1, out_blob, in_blob1);
+		//pcr selection p
+		LoadBlob(outOffset, in_len2, out_blob, in_blob2);
+		// Load the flags uint32
+		LoadBlob_UINT32(outOffset,*flags,out_blob);
+
+		LoadBlob_Auth(outOffset, out_blob, auth1);
+		LoadBlob_Header(TPM_TAG_RQU_AUTH1_COMMAND, *outOffset, ordinal, out_blob);
+		break;
+	}
+#endif
 #ifdef TSS_BUILD_TSS12
 	/* 1 UINT32, 1 20-byte blob, 1 BLOB, 1 BOOL, 1 optional AUTH */
 	case TPM_ORD_Quote2:

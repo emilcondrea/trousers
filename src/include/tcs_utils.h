@@ -556,7 +556,19 @@ TSS_RESULT TCSP_FlushSpecific_Common(UINT32, TPM_RESOURCE_TYPE);
 					UINT32 * sigSize,	/* out */
 					BYTE ** sig	/* out */
 	    );
-	
+
+	TSS_RESULT TCSP_DeepQuote_Internal(TCS_CONTEXT_HANDLE hContext,	/* in */
+				    TCS_KEY_HANDLE keyHandle,	/* in */
+				    TCPA_NONCE antiReplay,	/* in */
+				    UINT32 pcrDataSizeIn,	/* in */
+				    BYTE * pcrDataIn,	/* in */
+					UINT32 phPcrDataSizeIn,	/* in */
+				    BYTE * phPcrDataIn,	/* in */
+				    UINT32 flags, /* in */
+				    TPM_AUTH * privAuth,	/* in, out */
+				    UINT32 * sigSize,	/* out */
+				    BYTE ** sig);	/* out */
+
 	TSS_RESULT TCSP_Quote2_Internal(TCS_CONTEXT_HANDLE hContext,	/* in */
 						TCS_KEY_HANDLE keyHandle,	/* in */
 						TCPA_NONCE antiReplay,	/* in */

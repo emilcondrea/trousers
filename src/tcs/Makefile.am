@@ -52,6 +52,10 @@ if TSS_BUILD_QUOTE
 libtcs_a_SOURCES+=tcsi_quote.c tcs_quote.c rpc/@RPC@/rpc_quote.c
 libtcs_a_CFLAGS+=-DTSS_BUILD_QUOTE
 endif
+if TSS_BUILD_DEEPQUOTE
+libtcs_a_SOURCES+=tcsi_deepquote.c rpc/@RPC@/rpc_deepquote.c
+libtcs_a_CFLAGS+=-DTSS_BUILD_DEEPQUOTE
+endif
 if TSS_BUILD_SEAL
 libtcs_a_SOURCES+=tcsi_seal.c tcs_seal.c rpc/@RPC@/rpc_seal.c
 libtcs_a_CFLAGS+=-DTSS_BUILD_SEAL
